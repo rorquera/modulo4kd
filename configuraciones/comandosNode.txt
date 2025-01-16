@@ -1,0 +1,24 @@
+--------------------
+CREACION DE PROYECTO
+--------------------
+
+npm init --y
+
+----------------------
+INSTALACION DE EXPRESS
+----------------------
+
+npm install express
+
+------------------------
+EJECUTAR APLICACION NODE
+------------------------
+
+node <nombreArchivo.js>
+ej: node app.js
+
+--------------------
+INSTALAR PARSER BODY
+--------------------
+
+npm i body-parser

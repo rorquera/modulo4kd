@@ -1,0 +1,4 @@
+@react-navigation/native react-native-screens react-native-safe-area-context @react-navigation/native-stack
+@rneui/base  @rneui/themed
+
+npm install react-native-safe-area-context
