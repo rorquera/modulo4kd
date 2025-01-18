@@ -8,6 +8,30 @@ export const getAllLaptops = (fnRefrescarLista) => {
       return resp.json();
     })
     .then((cuerpo) => {
-        fnRefrescarLista(cuerpo);
+      fnRefrescarLista(cuerpo);
+    });
+};
+
+export const guardarLaptopRest = (
+  { marca, procesador, memoria, disco },
+  fnMostrarMensaje
+) => {
+  const conf = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      marca,
+      procesador,
+      memoria,
+      disco,
+    }),
+  };
+  fetch(url + 'laptops', conf)
+    .then((resp) => resp.json())
+    .then((laptop) => {
+      fnMostrarMensaje();
+      console.log(laptop);
     });
 };

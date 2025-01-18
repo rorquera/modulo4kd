@@ -12,3 +12,23 @@ export const getAllContacts = (fnRefreshList) => {
       fnRefreshList(body);
     });
 };
+
+export const saveContactRest = (contact, fnShowMessage) => {
+  const config = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      nombre: contact.name,
+      apellido: contact.surName,
+      celular: contact.phone,
+    }),
+  };
+  fetch(url + 'contactos', config)
+    .then((respuesta) => respuesta.json())
+    .then((body) => {
+      fnShowMessage();
+      console.log(body);
+    });
+};

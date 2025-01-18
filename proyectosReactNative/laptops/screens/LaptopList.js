@@ -1,9 +1,9 @@
-import { Button, ListItem } from '@rneui/base';
+import { Button, ListItem, FAB } from '@rneui/base';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { getAllLaptops } from '../rest_client/Laptops';
 import { useState } from 'react';
 
-export const LaptopList = () => {
+export const LaptopList = ({navigation}) => {
   const [laptopList, setLaptopList] = useState([]);
 
   const fnRefrescarLista = (cuerpo) => {
@@ -37,6 +37,15 @@ export const LaptopList = () => {
         data={laptopList}
         renderItem={({ item }) => {
           return <LaptopItem laptop={item} />;
+        }}
+      />
+      <FAB
+        placement="right"
+        title="Add"
+        icon={{ name: 'add', color: 'white' }}
+        color="green"
+        onPress={() => {
+          navigation.navigate('LaptopFormNav');
         }}
       />
     </View>
