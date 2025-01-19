@@ -1,7 +1,11 @@
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { Input, Button } from '@rneui/base';
 import { useState } from 'react';
-import { saveContactRest, updateContactRest } from '../rest_client/Contactos';
+import {
+  deleteContactRest,
+  saveContactRest,
+  updateContactRest,
+} from '../rest_client/Contactos';
 
 export const ContactsForm = ({ navigation, route }) => {
   let contactRetrieved = route.params.contactParam;
@@ -16,11 +20,8 @@ export const ContactsForm = ({ navigation, route }) => {
   );
   const [phone, setPhone] = useState(isNew ? null : contactRetrieved.celular);
 
-  const showMessage = () => {
-    Alert.alert(
-      'Confirmacion',
-      isNew ? 'Se creó el contacto' : 'Se actualizo el contacto'
-    );
+  const showMessage = (message) => {
+    Alert.alert('Confirmacion', message);
     navigation.goBack();
   };
 
@@ -39,6 +40,25 @@ export const ContactsForm = ({ navigation, route }) => {
     console.log('actualizando...');
     updateContactRest(
       { id: contactRetrieved.id, name, surName, phone },
+      showMessage
+    );
+  };
+
+  const confirmDelete = () => {
+    Alert.alert('Eliminar', '¿Esta seguro que desea eliminar el contacto?', [
+      {
+        text: 'Cancelar',
+        style: 'cancel',
+      },
+      { text: 'Si', onPress: deleteContact },
+    ]);
+  };
+
+  const deleteContact = () => {
+    deleteContactRest(
+      {
+        id: contactRetrieved.id,
+      },
       showMessage
     );
   };
@@ -68,6 +88,11 @@ export const ContactsForm = ({ navigation, route }) => {
         }}
       />
       <Button title="Guardar" onPress={isNew ? createContact : updateContact} />
+      {isNew ? (
+        <View></View>
+      ) : (
+        <Button title="Eliminar" onPress={confirmDelete} />
+      )}
     </View>
   );
 };

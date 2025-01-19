@@ -7,10 +7,14 @@ import {
 } from 'react-native';
 import { Button, ListItem, FAB } from '@rneui/base';
 import { getAllContacts } from '../rest_client/Contactos';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const ContactList = ({ navigation }) => {
   const [contactList, setContactList] = useState([]);
+
+  useEffect(() => {
+    getAllContacts(fnRefreshList);
+  }, []);
 
   const fnRefreshList = (contactos) => {
     setContactList(contactos);
@@ -20,7 +24,7 @@ export const ContactList = ({ navigation }) => {
     return (
       <TouchableHighlight
         onPress={() => {
-          navigation.navigate('ContactFormNav',{contactParam:contact});
+          navigation.navigate('ContactFormNav', { contactParam: contact });
         }}
       >
         <ListItem>
@@ -35,13 +39,6 @@ export const ContactList = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text>LISTA DE CONTACTOS</Text>
-      <Button
-        title="Consultar"
-        onPress={() => {
-          getAllContacts(fnRefreshList);
-        }}
-      />
       <FlatList
         data={contactList}
         renderItem={({ item }) => {
@@ -54,7 +51,7 @@ export const ContactList = ({ navigation }) => {
         icon={{ name: 'add', color: 'white' }}
         color="green"
         onPress={() => {
-          navigation.navigate('ContactFormNav',{});
+          navigation.navigate('ContactFormNav', {});
         }}
       />
     </View>

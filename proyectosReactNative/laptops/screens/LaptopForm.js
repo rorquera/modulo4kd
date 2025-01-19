@@ -4,6 +4,7 @@ import { useState } from 'react';
 import {
   guardarLaptopRest,
   actualizarLaptopRest,
+  eliminarLaptopRest,
 } from '../rest_client/Laptops';
 
 export const LaptopForm = ({ navigation, route }) => {
@@ -22,11 +23,8 @@ export const LaptopForm = ({ navigation, route }) => {
   );
   const [disco, setDisco] = useState(esNuevo ? null : laptopRecuperada.disco);
 
-  const mostrarMensaje = () => {
-    Alert.alert(
-      'Confirmacion',
-      esNuevo ? 'Se agrego la laptop' : 'Se actualizo los datos de la laptop'
-    );
+  const mostrarMensaje = (mensaje) => {
+    Alert.alert('Confirmación', mensaje);
     navigation.goBack();
   };
 
@@ -53,6 +51,21 @@ export const LaptopForm = ({ navigation, route }) => {
       },
       mostrarMensaje
     );
+  };
+
+  const confirmarEliminacion = () => {
+    Alert.alert(
+      'Eliminar',
+      '¿Está seguro que desea eliminar la información de la laptop?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        { text: 'Si', onPress: eliminarLaptop },
+      ]
+    );
+  };
+
+  const eliminarLaptop = () => {
+    eliminarLaptopRest({ id: laptopRecuperada.id }, mostrarMensaje);
   };
 
   return (
@@ -86,10 +99,17 @@ export const LaptopForm = ({ navigation, route }) => {
           setDisco(value);
         }}
       />
-      <Button
-        title="Guardar"
-        onPress={esNuevo ? guardarLaptop : actualizarLaptop}
-      />
+      <View style={styles.botonera}>
+        <Button
+          title="Guardar"
+          onPress={esNuevo ? guardarLaptop : actualizarLaptop}
+        />
+        {esNuevo ? (
+          <View></View>
+        ) : (
+          <Button title="Eliminar" onPress={confirmarEliminacion} />
+        )}
+      </View>
     </View>
   );
 };
@@ -100,5 +120,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'stretch',
     justifyContent: 'flex-start',
+  },
+  botonera: {
+    flex: 1,
+    flexDirection: 'row',
+    alignContent: 'stretch',
+    justifyContent: 'space-evenly',
   },
 });

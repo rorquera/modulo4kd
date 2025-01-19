@@ -31,7 +31,7 @@ export const guardarLaptopRest = (
   fetch(url + 'laptops', conf)
     .then((resp) => resp.json())
     .then((laptop) => {
-      fnMostrarMensaje();
+      fnMostrarMensaje('Se guardó la información de la laptop');
       console.log(laptop);
     });
 };
@@ -55,7 +55,19 @@ export const actualizarLaptopRest = (
   fetch(url + 'laptops/' + id, conf)
     .then((resp) => resp.json())
     .then((laptop) => {
-      fnMostrarMensaje();
+      fnMostrarMensaje('Se actualizó la información de la laptop');
+      console.log(laptop);
+    });
+};
+
+export const eliminarLaptopRest = ({ id }, fnMostrarMensaje) => {
+  const conf = {
+    method: 'DELETE',
+  };
+  fetch(url + 'laptops/' + id, conf)
+    .then((resp) => resp.json())
+    .then((laptop) => {
+      fnMostrarMensaje('Se eliminó la información de la laptop');
       console.log(laptop);
     });
 };

@@ -27,7 +27,7 @@ export const saveContactRest = (contact, fnShowMessage) => {
   fetch(url + 'contactos', config)
     .then((respuesta) => respuesta.json())
     .then((body) => {
-      fnShowMessage();
+      fnShowMessage('Se guardó el contacto');
       console.log(body);
     });
 };
@@ -47,7 +47,19 @@ export const updateContactRest = (contact, fnShowMessage) => {
   fetch(url + 'contactos/' + contact.id, config)
     .then((respuesta) => respuesta.json())
     .then((body) => {
-      fnShowMessage();
+      fnShowMessage('Se actualizó el contacto');
+      console.log(body);
+    });
+};
+
+export const deleteContactRest = (contact, fnShowMessage) => {
+  const config = {
+    method: 'DELETE',
+  };
+  fetch(url + 'contactos/' + contact.id, config)
+    .then((respuesta) => respuesta.json())
+    .then((body) => {
+      fnShowMessage('Se eliminó el contacto');
       console.log(body);
     });
 };
