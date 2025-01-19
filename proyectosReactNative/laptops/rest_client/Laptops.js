@@ -35,3 +35,27 @@ export const guardarLaptopRest = (
       console.log(laptop);
     });
 };
+
+export const actualizarLaptopRest = (
+  { id, marca, procesador, memoria, disco },
+  fnMostrarMensaje
+) => {
+  const conf = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      marca,
+      procesador,
+      memoria,
+      disco,
+    }),
+  };
+  fetch(url + 'laptops/' + id, conf)
+    .then((resp) => resp.json())
+    .then((laptop) => {
+      fnMostrarMensaje();
+      console.log(laptop);
+    });
+};

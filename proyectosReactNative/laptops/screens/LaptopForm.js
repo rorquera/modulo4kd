@@ -1,22 +1,51 @@
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { Input, Button } from '@rneui/base';
 import { useState } from 'react';
-import { guardarLaptopRest } from '../rest_client/Laptops';
+import {
+  guardarLaptopRest,
+  actualizarLaptopRest,
+} from '../rest_client/Laptops';
 
-export const LaptopForm = ({ navigation }) => {
-  const [marca, setMarca] = useState();
-  const [procesador, setProcesador] = useState();
-  const [memoria, setMemoria] = useState();
-  const [disco, setDisco] = useState();
+export const LaptopForm = ({ navigation, route }) => {
+  let laptopRecuperada = route.params.laptopParam;
+  let esNuevo = true;
+  if (laptopRecuperada) {
+    esNuevo = false;
+  }
+
+  const [marca, setMarca] = useState(esNuevo ? null : laptopRecuperada.marca);
+  const [procesador, setProcesador] = useState(
+    esNuevo ? null : laptopRecuperada.procesador
+  );
+  const [memoria, setMemoria] = useState(
+    esNuevo ? null : laptopRecuperada.memoria
+  );
+  const [disco, setDisco] = useState(esNuevo ? null : laptopRecuperada.disco);
 
   const mostrarMensaje = () => {
-    Alert.alert('Confirmacion', 'Se agrego la laptop');
+    Alert.alert(
+      'Confirmacion',
+      esNuevo ? 'Se agrego la laptop' : 'Se actualizo los datos de la laptop'
+    );
+    navigation.goBack();
   };
 
   const guardarLaptop = () => {
-    navigation.goBack();
     guardarLaptopRest(
       {
+        marca,
+        procesador,
+        memoria,
+        disco,
+      },
+      mostrarMensaje
+    );
+  };
+
+  const actualizarLaptop = () => {
+    actualizarLaptopRest(
+      {
+        id: laptopRecuperada.id,
         marca,
         procesador,
         memoria,
@@ -57,7 +86,10 @@ export const LaptopForm = ({ navigation }) => {
           setDisco(value);
         }}
       />
-      <Button title="Guardar" onPress={guardarLaptop} />
+      <Button
+        title="Guardar"
+        onPress={esNuevo ? guardarLaptop : actualizarLaptop}
+      />
     </View>
   );
 };

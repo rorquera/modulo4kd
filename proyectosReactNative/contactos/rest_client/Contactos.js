@@ -8,8 +8,7 @@ export const getAllContacts = (fnRefreshList) => {
       return resp.json();
     })
     .then((body) => {
-      // console.log(body);
-      fnRefreshList(body);
+      return fnRefreshList(body);
     });
 };
 
@@ -26,6 +25,26 @@ export const saveContactRest = (contact, fnShowMessage) => {
     }),
   };
   fetch(url + 'contactos', config)
+    .then((respuesta) => respuesta.json())
+    .then((body) => {
+      fnShowMessage();
+      console.log(body);
+    });
+};
+
+export const updateContactRest = (contact, fnShowMessage) => {
+  const config = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      nombre: contact.name,
+      apellido: contact.surName,
+      celular: contact.phone,
+    }),
+  };
+  fetch(url + 'contactos/' + contact.id, config)
     .then((respuesta) => respuesta.json())
     .then((body) => {
       fnShowMessage();

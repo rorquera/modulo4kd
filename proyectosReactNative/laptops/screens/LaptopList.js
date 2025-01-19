@@ -1,9 +1,15 @@
 import { Button, ListItem, FAB } from '@rneui/base';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableHighlight,
+} from 'react-native';
 import { getAllLaptops } from '../rest_client/Laptops';
 import { useState } from 'react';
 
-export const LaptopList = ({navigation}) => {
+export const LaptopList = ({ navigation }) => {
   const [laptopList, setLaptopList] = useState([]);
 
   const fnRefrescarLista = (cuerpo) => {
@@ -12,15 +18,21 @@ export const LaptopList = ({navigation}) => {
 
   const LaptopItem = ({ laptop }) => {
     return (
-      <ListItem>
-        <ListItem.Content>
-          <ListItem.Title>{laptop.marca}</ListItem.Title>
-          <ListItem.Subtitle>{laptop.procesador}</ListItem.Subtitle>
-          <ListItem.Subtitle>{laptop.disco}</ListItem.Subtitle>
-          <ListItem.Subtitle>{laptop.id}</ListItem.Subtitle>
-          <ListItem.Subtitle>{laptop.memoria}</ListItem.Subtitle>
-        </ListItem.Content>
-      </ListItem>
+      <TouchableHighlight
+        onPress={() => {
+          navigation.navigate('LaptopFormNav', { laptopParam: laptop });
+        }}
+      >
+        <ListItem>
+          <ListItem.Content>
+            <ListItem.Title>{laptop.marca}</ListItem.Title>
+            <ListItem.Subtitle>{laptop.procesador}</ListItem.Subtitle>
+            <ListItem.Subtitle>{laptop.disco}</ListItem.Subtitle>
+            <ListItem.Subtitle>{laptop.id}</ListItem.Subtitle>
+            <ListItem.Subtitle>{laptop.memoria}</ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem>
+      </TouchableHighlight>
     );
   };
 
@@ -45,7 +57,7 @@ export const LaptopList = ({navigation}) => {
         icon={{ name: 'add', color: 'white' }}
         color="green"
         onPress={() => {
-          navigation.navigate('LaptopFormNav');
+          navigation.navigate('LaptopFormNav', {});
         }}
       />
     </View>

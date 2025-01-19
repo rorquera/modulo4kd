@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableHighlight,
+} from 'react-native';
 import { Button, ListItem, FAB } from '@rneui/base';
 import { getAllContacts } from '../rest_client/Contactos';
 import { useState } from 'react';
@@ -12,12 +18,18 @@ export const ContactList = ({ navigation }) => {
 
   const ContactItem = ({ contact }) => {
     return (
-      <ListItem>
-        <ListItem.Content>
-          <ListItem.Title>{contact.id}</ListItem.Title>
-          <ListItem.Subtitle>{contact.nombre}</ListItem.Subtitle>
-        </ListItem.Content>
-      </ListItem>
+      <TouchableHighlight
+        onPress={() => {
+          navigation.navigate('ContactFormNav',{contactParam:contact});
+        }}
+      >
+        <ListItem>
+          <ListItem.Content>
+            <ListItem.Title>{contact.id}</ListItem.Title>
+            <ListItem.Subtitle>{contact.nombre}</ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem>
+      </TouchableHighlight>
     );
   };
 
@@ -42,7 +54,7 @@ export const ContactList = ({ navigation }) => {
         icon={{ name: 'add', color: 'white' }}
         color="green"
         onPress={() => {
-          navigation.navigate('ContactFormNav');
+          navigation.navigate('ContactFormNav',{});
         }}
       />
     </View>
