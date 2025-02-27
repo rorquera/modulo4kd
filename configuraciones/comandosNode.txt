@@ -22,3 +22,9 @@ INSTALAR PARSER BODY
 --------------------
 
 npm i body-parser
+
+-------------------------------------
+DEPENDENCIAS PARA CONEXION A POSTGRES
+-------------------------------------
+
+npm install pg
