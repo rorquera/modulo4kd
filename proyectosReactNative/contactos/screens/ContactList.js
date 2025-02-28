@@ -8,6 +8,8 @@ import {
 import { Button, ListItem, FAB } from '@rneui/base';
 import { getAllContacts } from '../rest_client/Contactos';
 import { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React from 'react';
 
 export const ContactList = ({ navigation }) => {
   const [contactList, setContactList] = useState([]);
@@ -19,6 +21,13 @@ export const ContactList = ({ navigation }) => {
   const fnRefreshList = (contactos) => {
     setContactList(contactos);
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getAllContacts(fnRefreshList);
+      return () => {};
+    }, [])
+  );
 
   const ContactItem = ({ contact }) => {
     return (

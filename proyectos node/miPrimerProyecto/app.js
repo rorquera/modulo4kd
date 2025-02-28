@@ -17,6 +17,7 @@ const client = new Client({
 //funcion de middleware
 
 app.use(bodyParser.json());
+client.connect();
 
 app.use('/contactos', (req, resp, next) => {
   console.log('Ingresa a la funcion de middleware');
@@ -38,7 +39,7 @@ app.use('/contactos', (req, resp, next) => {
 // });
 
 app.get('/contactos', (request, response) => {
-  client.connect();
+  // client.connect();
 
   client
     .query('select * from contactos')
